@@ -1,0 +1,110 @@
+@import 'assets/fonts/index.css';
+@import 'assets/misc/mixin.scss';
+@import 'assets/misc/variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  font-family: 'Lexend', sans-serif;
+}
+
+body {
+  background: #1C0E28;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Righteous', sans-serif;
+}
+
+#root {
+  height: 9999px;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  transition: .3s all;
+}
+
+a:hover {
+  text-shadow: 3px 3px 3px rgba(0, 0, 0.3);
+}
+
+button {
+  transition: .3s all;
+  background: none;
+  outline: none;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  line-height: 1.3em;
+}
+
+button:hover {
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-bttn {
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  background: #241A33;
+}
+
+.red-bttn {
+  background: #F32852;
+  box-shadow: 0px 13px 18.3px 0px rgba(244, 61, 99, 0.24);
+}
+
+.trnp-bttn {
+  border: 1px solid #F32852;
+}
+
+.big-bttn {
+  padding: 18px 0;
+  width: 208px;
+  flex: 0 0 208px
+}
+
+.mid-bttn {
+  padding: 16px 0;
+  width: 190px;
+  flex: 0 0 190px
+}
+
+
+.con-def {
+  max-width: $main-content-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.con-full {
+  width: 100%;
+}
+
+.con-mob {
+  display: none !important;
+
+  @include for-specific-size($mobile-start) {
+    display: unset;
+  }
+}
+
+.con-desk {
+  @include for-specific-size($mobile-start) {
+    display: none !important;
+  }
+}
