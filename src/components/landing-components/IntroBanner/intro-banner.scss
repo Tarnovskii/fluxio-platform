@@ -1,0 +1,28 @@
+.ib {
+  display: flex;
+  align-items: center;
+
+  &__text {
+    h1 {
+      font-size: 64px;
+      margin-bottom: 45px;
+
+      span {
+        color: #00D38C;
+        font-size: inherit;
+        font-family: inherit;
+      }
+    }
+
+    p {
+      font-size: 24px;
+      margin-bottom: 35px;
+    }
+
+    &__buttons {
+      display: flex;
+      align-items: center;
+      column-gap: 20px;
+    }
+  }
+}
