@@ -1,11 +1,13 @@
 import './header.scss'
 
 import logoSVG from 'assets/img/logo.svg'
+import burgerMenuIcon from 'assets/img/burger-menu-icon.svg'
+import closeBurgerMenuIcon from 'assets/img/close-burger-icon.svg'
 import classnames from "classnames";
 import { useScrollPosition } from "../../../hooks/useScrollPosition";
 import { Web3Modal, useWeb3Modal } from '@web3modal/react';
 import { ConfigContext } from 'applicationContext';
-import { useCallback, useContext, useEffect } from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAccount, useWalletClient } from 'wagmi';
 import { ApplicationActionCreator } from 'store/reducers/applicationReducer/action-creator';
@@ -17,6 +19,8 @@ export const Header = () => {
   const { walletAddress } = useSelector(state => state.accountReducer)
   const { connector: activeConnector, address, isConnecting, isDisconnected } = useAccount()
   const { data, isError } = useWalletClient()
+
+  const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -61,6 +65,20 @@ export const Header = () => {
           <a>How it works</a>
           <button onClick={handleConnectWalletClick} className='dark-bttn big-bttn'>Dashboard</button>
         </nav>
+      </div>
+      <div className='header__mobile-content con-mob con-full '>
+        <div className={'header__mobile-content__main'}>
+          <img className='header__mobile-content__main__logo' src={logoSVG} alt={'svg'} />
+          <button onClick={setIsMobileMenuVisible.bind(null, !isMobileMenuVisible)} className={'header__mobile-content__main__burger dark-bttn'}>
+            {!isMobileMenuVisible ?  <img src={burgerMenuIcon} alt={'burger-menu-icon'}/> :  <img src={closeBurgerMenuIcon} alt={'burger-menu-icon'}/>}
+          </button>
+          <nav onClick={setIsMobileMenuVisible.bind(null, false)} className={classnames('header__mobile-content__main__nav', {'open': isMobileMenuVisible})}>
+            <a>Contract</a>
+            <a>Investments</a>
+            <a>How it works</a>
+            <button onClick={handleConnectWalletClick} className='dark-bttn big-bttn'>Dashboard</button>
+          </nav>
+        </div>
       </div>
     </header>
   )

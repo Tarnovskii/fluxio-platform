@@ -6,7 +6,7 @@
   z-index: 1;
 
   &.solid {
-    background: #100818;
+    background: #241A33;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   }
 
@@ -28,6 +28,55 @@
 
       button {
         margin-left: 60px;
+      }
+    }
+  }
+
+  &__mobile-content {
+    &__main {
+      justify-content: space-between;
+      align-items: center;
+      display: flex;
+      padding: 18px 20px;
+      position: relative;
+
+      &__burger {
+        border-radius: 9px;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.17);
+      }
+
+      &__logo {
+        height: 45px;
+      }
+
+      &__nav {
+        padding-top: 160px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        background: #241A33;
+        z-index: -1;
+        transform: translate(100%, 0);
+        transition: .3s all;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 30px;
+
+        li {
+          font-size: 16px;
+        }
+
+        &.open {
+          transform: translate(0, 0);
+        }
       }
     }
   }
