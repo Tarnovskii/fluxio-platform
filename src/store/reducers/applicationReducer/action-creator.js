@@ -80,6 +80,8 @@ export const ApplicationActionCreator = {
       const participants = +siteData[1].toString()
       const contractPercent = siteData[3].toString() / 100
 
+      console.log(totalBnbDeposit, participants, contractPercent)
+
       dispatch(ApplicationActionCreator.setTotalBnbDeposit(totalBnbDeposit))
       dispatch(ApplicationActionCreator.setParticipants(participants))
       dispatch(ApplicationActionCreator.setContractBonus(contractPercent))

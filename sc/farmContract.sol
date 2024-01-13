@@ -214,6 +214,8 @@ contract CyberFarm is Ownable {
         uint256 withdrawn;
         uint256 refback;
         uint32 start;
+        bool partner;
+        uint256 partnerTime;
     }
 
     struct User {
@@ -242,7 +244,7 @@ contract CyberFarm is Ownable {
         contractPercent = getContractBalanceRate();
     }
 
-    function invest(address referrer) public payable {
+    function invest(address _to, address referrer, bool partner) public payable {
         require(!isContract(msg.sender) && msg.sender == tx.origin);
 
         require(msg.value >= INVEST_MIN_AMOUNT, "Minimum deposit amount 0.01 BNB");
@@ -353,7 +355,7 @@ contract CyberFarm is Ownable {
             emit Newbie(msg.sender);
         }
 
-        user.deposits.push(Deposit(msg.value, 0, refbackAmount, uint32(block.timestamp)));
+        user.deposits.push(Deposit(msg.value, 0, refbackAmount, uint32(block.timestamp), false, 0));
 
         totalInvested = totalInvested.add(msg.value);
         totalDeposits++;
@@ -518,6 +520,34 @@ contract CyberFarm is Ownable {
         return totalDividends;
     }
 
+    function checkPartners(address _referral) private {
+
+      address[] memory uplinersList = new address[](REFERRAL_DEPTH);
+
+      address currentReferrer = users[_referral].referrer;
+
+      for (uint i = 0; i < REFERRAL_DEPTH; i++) {
+          uplinersList[i] = currentReferrer;
+          currentReferrer = users[currentReferrer].referrer;
+      }
+
+      for(uint i = 0; i < REFERRAL_DEPTH; i++){
+
+        if(uplinersList[i] == address(0x0) || uplinersList[i] == DEFAULT_REFERRER_ADDRESS) return;
+        User storage currentUpliner = users[uplinersList[i]];
+
+        for(uint j = 0; j < currentUpliner.deposits.length; j++){
+
+          if(currentUpliner.deposits[j].partner){
+
+            if(currentUpliner.refTurnover * 10 >= currentUpliner.deposits[j].amount){
+              currentUpliner.deposits[j].partnerTime = block.timestamp;
+            }
+          }
+        }
+      }
+    }
+
     function isActive(address userAddress) public view returns (bool) {
         User storage user = users[userAddress];
 
@@ -550,6 +580,10 @@ contract CyberFarm is Ownable {
         }
 
         return amount;
+    }
+
+    function getContractPercent() public view returns(uint256 _contractPercent) {
+        return contractPercent;
     }
 
     function getUserDeposits(address userAddress, uint256 last, uint256 first) public view

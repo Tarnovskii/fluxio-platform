@@ -24,6 +24,8 @@ const applicationReducer = (state = initialState, action) => {
       return { ...state, totalBnbDeposit: action.payload }
     case applicationTypes().SET_PARTICIPANTS:
       return { ...state, participants: action.payload }
+    case applicationTypes().SET_CONTRACT_PERCENT:
+      return { ...state, contractPercent: action.payload }
     default:
       return state
   }
