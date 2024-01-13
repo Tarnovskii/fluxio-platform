@@ -58,6 +58,18 @@ export const DashboardPage = () => {
                     <button className={'red-bttn mid-bttn'}>Withdraw</button>
                 </div>
 
+                <div className={'con-mob db__additional-info'}>
+                    <div className={'db__tile'}>
+                        <p className={'db__tile__small-header'}>Earned BNB</p>
+                        <span className={'db__tile__light-number'}>{(walletStats.earned).toFixed(4)}</span>
+                    </div>
+
+                    <div className={'db__tile'}>
+                        <p className={'db__tile__small-header'}>Withdrawn BNB</p>
+                        <span className={'db__tile__light-number'}>{(walletStats.withdraw).toFixed(4)}</span>
+                    </div>
+                </div>
+
                 <div className={'db__tile'}>
                     <p className={'db__tile__lite-header'}>Daily yield</p>
                     <span className={'db__tile__number'}>{(dailyRates.yield).toFixed(4)}</span>
@@ -104,7 +116,7 @@ export const DashboardPage = () => {
                     </div>
                 </div>
             </div>
-            <div className={'db__additional-info'}>
+            <div className={'con-desk db__additional-info'}>
                 <div className={'db__tile'}>
                     <p className={'db__tile__small-header'}>Earned BNB</p>
                     <span className={'db__tile__light-number'}>{(walletStats.earned).toFixed(4)}</span>
