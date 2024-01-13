@@ -1,29 +1,34 @@
 .header {
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px 0;
   transition: .3s all;
   position: sticky;
   top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  z-index: 1;
 
-  &.hidden {
-    transform: translate(0, -100%);
+  &.solid {
+    background: #100818;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   }
 
-  &__logo {
-    height: 55px;
-  }
-
-  &__nav-desktop {
-    align-items: center;
+  &__desktop-content {
     display: flex;
-    margin-left: auto;
-    column-gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
 
-    button {
-      margin-left: 60px;
+    &__logo {
+      height: 55px;
+    }
+
+    &__nav {
+      align-items: center;
+      display: flex;
+      margin-left: auto;
+      column-gap: 24px;
+
+      button {
+        margin-left: 60px;
+      }
     }
   }
 }

@@ -1,10 +1,26 @@
 .ib {
   display: flex;
   align-items: center;
+  padding-bottom: 30px;
 
   &__text {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 25%;
+      transform: translate(-50%, -50%);
+      content: '';
+      width: 455px;
+      height: 455px;
+      background: rgba(220, 40, 77, 0.44);
+      filter: blur(144.5500030517578px);
+      border-radius: 455px;
+      z-index: -1;
+    }
+
     h1 {
-      font-size: 64px;
       margin-bottom: 45px;
 
       span {
@@ -24,5 +40,10 @@
       align-items: center;
       column-gap: 20px;
     }
+  }
+
+  &__image {
+    width: 640px;
+    margin-left: auto;
   }
 }
