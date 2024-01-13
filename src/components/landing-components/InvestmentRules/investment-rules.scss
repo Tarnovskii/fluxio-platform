@@ -1,6 +1,13 @@
+@import "../../../assets/misc/mixin.scss";
+@import "../../../assets/misc/variables.scss";
+
 .ir {
   background: rgba(0, 0, 0, 0.41);
   padding: 60px 0 100px 0;
+
+  @include for-specific-size($mobile-mid) {
+    padding: 40px 0 40px 0;
+  }
 
   &__main {
     h2 {
@@ -15,6 +22,12 @@
       flex-wrap: wrap;
       row-gap: 12px;
 
+      @include for-specific-size($mobile-mid) {
+        flex-wrap: nowrap;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       &__tile {
         flex: 0 0 48%;
         border-radius: 16px;
@@ -22,9 +35,18 @@
         padding: 35px 0 35px 50px;
         position: relative;
 
+        @include for-specific-size($mobile-mid) {
+          flex: 0 0 100%;
+        }
+
         &:last-child {
           margin-left: auto;
           margin-right: auto;
+
+          @include for-specific-size($mobile-mid) {
+            margin-left: unset;
+            margin-right: unset;
+          }
         }
 
         &:before {

@@ -9,7 +9,7 @@ export const AboutUs = () => {
     return (
         <section className='con-def au'>
             <div className='au__text'>
-                <h2>Fluxio - a<br/>Breakthrough of<br/><span>the Year 2023</span></h2>
+                <h2>Fluxio - a Break through of <span>the Year 2023</span></h2>
                 <p>The project combines the security of smartcontracts and the best options for earning,
                     including income from investments, staking and a unique referral program.</p>
                 <button className='red-bttn mid-bttn'>Make a deposit</button>
