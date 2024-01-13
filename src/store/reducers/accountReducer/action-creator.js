@@ -8,8 +8,8 @@ export const AccountActionCreator = {
     type: accountTypes().SET_USER_STATS,
     payload: userStats
   }),
-  setUserInfo: (userInfo) => ({
-    type: accountTypes().SET_USER_INFO,
+  setUserReferralsStats: (userInfo) => ({
+    type: accountTypes().SET_USER_REFERRALS_STATS,
     payload: userInfo
   }),
   setWalletAddress: (walletAddress) => ({
@@ -24,11 +24,18 @@ export const AccountActionCreator = {
     type: accountTypes().SET_BNB_INVEST_INPUT,
     payload: bnbInvestInput
   }),
+  setUserDeposits: (userDeposits) => ({
+    type: accountTypes().SET_USER_DEPOSITS,
+    payload: userDeposits
+  }),
+  resetUserInfo: () => ({
+    type: accountTypes().RESET_USER_INFO
+  }),
   getBnbBalance:
     () => async (dispatch, store) => {
 
-      const walletRPC = store().ApplicationReducer.walletRPC
-      const walletAddress = store().ApplicationReducer.walletAddress
+      const walletRPC = store().applicationReducer.walletRPC
+      const walletAddress = store().applicationReducer.walletAddress
       const web3 = await initWeb3(walletRPC)
 
       let bnbBalance
@@ -44,14 +51,14 @@ export const AccountActionCreator = {
 
       dispatch(AccountActionCreator.setBnbBalance(bnbBalance))
     },
-  getUserInfo:
+  getUserReferralsStats:
     () => async (dispatch, store) => {
-      const walletRPC = store.AplicationReducer.walletRPC
-      const walletAddress = '0xA93c06f552869993cD6b77cDDE3A148fC54C2F3e'
-      //store().AccountReducer.walletAddress
+      const walletRPC = store().applicationReducer.walletRPC
+      const walletAddress = store().accountReducer.walletAddress
+
       const web3 = await initWeb3(walletRPC)
 
-      const farmContract = new web3.eth.Contract(FarmContract, Config().FARMING_CONTRACT)
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
 
       let userInfo
 
@@ -61,6 +68,76 @@ export const AccountActionCreator = {
         console.log(error)
       }
 
-      console.log(userInfo)
+      const info = {
+        upliner: userInfo[0],
+        referralBonusAmount: +web3.utils.fromWei(+userInfo[3].toString(), 'ether'),
+        referrals: userInfo[4].map(el => +el.toString()),
+        referralsNumber: userInfo[5].map(el => +el.toString()),
+        referralBackPercent: +web3.utils.fromWei(+userInfo[1].toString(), 'ether'),
+        referralLevel: +userInfo[6].toString(),
+        referralTurnover: +web3.utils.fromWei(userInfo[7], 'ether'),
+      }
+
+      dispatch(AccountActionCreator.setUserReferralsStats(info))
+    },
+  getUserStats:
+    () => async (dispatch, store) => {
+      const walletRPC = store().applicationReducer.walletRPC
+      const walletAddress = store().accountReducer.walletAddress
+
+      const web3 = await initWeb3(walletRPC)
+
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
+
+      let userInfo
+
+      try {
+        userInfo = await farmContract.methods.getUserStats(walletAddress).call()
+      } catch (error) {
+        console.log(error)
+      }
+
+      const info = {
+        percentRate: userInfo[0].toString() / 100,
+        availableWithdraw: +web3.utils.fromWei(userInfo[1].toString(), 'ether'),
+        totalDeposits: +web3.utils.fromWei(userInfo[2].toString(), 'ether'),
+        depositsAmount: +web3.utils.fromWei(userInfo[3].toString(), 'ether'),
+        totalWithdrawn: +web3.utils.fromWei(userInfo[4].toString(), 'ether'),
+        depositRate: +web3.utils.fromWei(userInfo[5].toString(), 'ether'),
+      }
+
+      dispatch(AccountActionCreator.setUserStats(info))
+    },
+  getUserDeposits:
+    () => async (dispatch, store) => {
+      const walletRPC = store().applicationReducer.walletRPC
+      const walletAddress = store().accountReducer.walletAddress
+
+      const web3 = await initWeb3(walletRPC)
+
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
+
+      let userDeposits
+
+      try {
+        userDeposits = await farmContract.methods.getUserDeposits(walletAddress, 0, 10).call()
+      } catch (error) {
+        console.log(error)
+        return
+      }
+
+      const newUserDeposits = userDeposits.amount.map((amount, index) => {
+        const deposit = {
+          amount: +web3.utils.fromWei(amount.toString(), 'ether'),
+          withdrawn: +web3.utils.fromWei(userDeposits.withdrawn[index].toString(), 'ether'),
+          refBack: +web3.utils.fromWei(userDeposits.refBack[index].toString(), 'ether'),
+          start: userDeposits.start[index].toString(),
+        }
+
+        return deposit
+      })
+
+      dispatch(AccountActionCreator.setUserDeposits(newUserDeposits))
+
     }
 }

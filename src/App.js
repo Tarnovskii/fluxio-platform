@@ -36,7 +36,8 @@ export default () => {
       if (!seconds) {
 
         if (walletAddress) {
-          dispatch(AccountActionCreator.getUserInfo())
+          dispatch(AccountActionCreator.getUserReferralsStats())
+          dispatch(AccountActionCreator.getUserStats())
         }
         setSeconds(1);
       } else if (seconds >= Config().HEARTBEAT_RATE) {

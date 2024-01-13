@@ -1,5 +1,9 @@
 import { initWeb3 } from "utils/initWeb3";
 import { applicationTypes } from "./types";
+import { AccountActionCreator } from "../accountReducer/action-creator";
+import Web3 from "web3";
+import { Config } from "config";
+import FarmContract from 'contracts/FarmContract.json'
 
 export const ApplicationActionCreator = {
   setWalletRpc: (walletRPC) => ({
@@ -33,7 +37,7 @@ export const ApplicationActionCreator = {
   connectWallet:
     () => async (dispatch, store) => {
 
-      const walletRPC = store().ApplicationReducer.walletRPC
+      const walletRPC = store().applicationReducer.walletRPC
 
       // Create a new Web3 instance using the MetaMask provider
       const web3 = await initWeb3(walletRPC)
@@ -55,6 +59,30 @@ export const ApplicationActionCreator = {
       const chainId = await getConnectedChainId()
       const currentAddress = walletRPC.account.address
       console.log('Wallet connected:', currentAddress)
-      dispatch(ApplicationActionCreator.setWalletAddress(currentAddress))
+      dispatch(AccountActionCreator.setWalletAddress(currentAddress))
     },
+  getSiteStats:
+    () => async (dispatch, store) => {
+      const web3 = new Web3(Config().WEB3_BSC_URL);
+
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
+
+      let siteData
+
+      try {
+        siteData = await farmContract.methods.getSiteStats().call()
+      } catch (error) {
+        console.log(error)
+        return
+      }
+
+      const totalBnbDeposit = +web3.utils.fromWei(siteData[0].toString(), 'ether')
+      const participants = +siteData[1].toString()
+      const contractPercent = siteData[3].toString() / 100
+
+      dispatch(ApplicationActionCreator.setTotalBnbDeposit(totalBnbDeposit))
+      dispatch(ApplicationActionCreator.setParticipants(participants))
+      dispatch(ApplicationActionCreator.setContractBonus(contractPercent))
+
+    }
 }
