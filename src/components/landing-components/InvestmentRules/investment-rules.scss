@@ -1,0 +1,44 @@
+.ir {
+  background: rgba(0, 0, 0, 0.41);
+  padding: 60px 0 100px 0;
+
+  &__main {
+    h2 {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    &__tiles {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 12px;
+
+      &__tile {
+        flex: 0 0 48%;
+        border-radius: 16px;
+        background: #000;
+        padding: 35px 0 35px 50px;
+        position: relative;
+
+        &:last-child {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        &:before {
+          position: absolute;
+          left: 14px;
+          height: 64px;
+          content: '';
+          width: 9px;
+          border-radius: 16px;
+          background: #00D38C;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+      }
+    }
+  }
+}

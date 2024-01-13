@@ -1,0 +1,62 @@
+.ss {
+  background: rgba(0, 0, 0, 0.41);
+
+  &__main {
+    padding: 90px 0 110px 0;
+    background: url("../../../assets/img/smart-stats-background.svg") center center no-repeat;
+    background-size: 100%;
+    h2 {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      width: 940px;
+    }
+
+    button {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      margin-top: 90px;
+    }
+
+    &__sub-header {
+      font-size: 24px;
+      text-align: center;
+      display: block;
+      width: 640px;
+      margin: 35px auto 60px;
+    }
+
+    &__tiles {
+      display: flex;
+      column-gap: 160px;
+      justify-content: center;
+
+      &__separator {
+        display: block;
+        width: 1px;
+        background: white;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      &__tile {
+        padding-top: 20px;
+        padding-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 18px;
+
+        span {
+          text-align: center;
+          color: #00D38C;
+          font-family: 'Righteous', sans-serif;
+          font-size: 64px;
+        }
+      }
+    }
+    &__audit-status {
+      margin-top: 35px;
+      text-align: center;
+    }
+  }
+}

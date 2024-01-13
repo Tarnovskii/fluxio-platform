@@ -14,11 +14,16 @@
   font-family: 'Lexend', sans-serif;
 }
 
+b {
+  font-weight: 700;
+}
+
 body {
   background: #1C0E28;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -28,10 +33,7 @@ code {
 
 h1, h2, h3, h4 {
   font-family: 'Righteous', sans-serif;
-}
-
-#root {
-  height: 9999px;
+  font-size: 64px;
 }
 
 a {
@@ -72,6 +74,12 @@ button:hover {
   border: 1px solid #F32852;
 }
 
+.long-bttn {
+  padding: 18px 0;
+  width: 270px;
+  flex: 0 0 270px
+}
+
 .big-bttn {
   padding: 18px 0;
   width: 208px;
@@ -84,6 +92,17 @@ button:hover {
   flex: 0 0 190px
 }
 
+.sqr-bttn {
+  display: block;
+  text-align: center;
+  width: 230px;
+  flex: 0 0 230px;
+  border-radius: 2px;
+  border: 2px solid #00D38C;
+  color: #00D38C;
+  font-size: 15px;
+  padding: 15px 0;
+}
 
 .con-def {
   max-width: $main-content-width;
@@ -93,6 +112,14 @@ button:hover {
 
 .con-full {
   width: 100%;
+}
+
+hr.con-full, hr.con-def {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  height: 1px;
+  border: none;
 }
 
 .con-mob {

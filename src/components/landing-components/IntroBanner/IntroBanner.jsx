@@ -1,5 +1,7 @@
 import './intro-banner.scss'
 
+import intoBannerImage from 'assets/img/intro-banner-image.svg'
+
 export const IntroBanner = () => {
     return (
         <section className='con-def ib'>
@@ -12,6 +14,7 @@ export const IntroBanner = () => {
                     <button className='trnp-bttn mid-bttn'>Audit results</button>
                 </div>
             </div>
+            <img className='ib__image' src={intoBannerImage} alt={'into-banner-image'}/>
         </section>
     )
 }
