@@ -1,3 +1,4 @@
+import { initWeb3 } from "utils/initWeb3";
 import { applicationTypes } from "./types";
 
 export const ApplicationActionCreator = {

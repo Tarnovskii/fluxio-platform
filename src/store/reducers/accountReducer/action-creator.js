@@ -20,6 +20,10 @@ export const AccountActionCreator = {
     type: accountTypes().SET_BNB_BALANCE,
     payload: bnbBalance
   }),
+  setBnbInvestInput: (bnbInvestInput) => ({
+    type: accountTypes().SET_BNB_INVEST_INPUT,
+    payload: bnbInvestInput
+  }),
   getBnbBalance:
     () => async (dispatch, store) => {
 
