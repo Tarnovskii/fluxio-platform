@@ -1,3 +1,7 @@
+@import "../../assets/misc/mixin.scss";
+@import "../../assets/misc/variables.scss";
+
+
 .db {
   padding-top: 30px;
   padding-bottom: 80px;
@@ -5,6 +9,11 @@
   flex-wrap: wrap;
   justify-content: space-between;
   position: relative;
+
+  @include for-specific-size($main-content-width) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 
   &:before, &:after {
     content: '';
@@ -33,6 +42,10 @@
   h1, h2 {
     flex: 0 0 100%;
     font-size: 36px;
+
+    @include for-specific-size($mobile-min) {
+      font-size: 24px;
+    }
   }
 
   h1 {
@@ -46,7 +59,7 @@
 
   $parent: &;
 
-  &__main-info, &__referral &__tile:first-child{
+  &__main-info, &__referral &__tile:first-child {
     flex: 0 0 75%;
   }
 
@@ -62,10 +75,18 @@
 
     #{$parent}__tile {
       flex: 0 0 49%;
+
+      @include for-specific-size($mobile-mid) {
+        flex: 100%;
+      }
     }
 
     #{$parent}__tile:first-child {
       flex: 0 0 100%;
+    }
+
+    @include for-specific-size($main-content-width) {
+      flex: 100%;
     }
   }
 
@@ -77,7 +98,33 @@
 
     #{$parent}__tile {
       padding: 20px 25px 20px 25px;
+
+      @include for-specific-size($main-content-width) {
+        flex: 0 0 49%;
+        height: auto;
+      }
+
+      @include for-specific-size($mobile-min) {
+        flex: 1 1 auto !important;
+      }
     }
+
+    @include for-specific-size($main-content-width) {
+      margin-top: 20px;
+      flex-direction: row;
+      justify-content: space-between;
+      flex: 1 1 auto !important;
+    }
+
+    &:not(.con-desk) {
+      @include for-specific-size($mobile-min) {
+        display: flex !important;
+        flex-direction: column;
+        row-gap: 20px;
+      }
+    }
+
+
   }
 
   &__additional-info, &__referral &__tile:last-child {
@@ -86,7 +133,24 @@
 
   &__referral {
     width: 100%;
-      display: flex;
+    display: flex;
+
+    #{$parent}__tile:first-child {
+      @include for-specific-size($main-content-width) {
+        flex: 0 0 70%;
+      }
+    }
+
+    #{$parent}__tile:last-child {
+      @include for-specific-size($main-content-width) {
+        flex: 0 0 29%;
+      }
+    }
+
+    @include for-specific-size($tablet-min) {
+      flex-direction: column;
+      row-gap: 20px;
+    }
   }
 
   &__tile {
@@ -94,9 +158,17 @@
     background: rgba(0, 0, 0, 0.41);
     padding: 30px 30px 40px 30px;
 
+    @include for-specific-size($mobile-min) {
+      padding: 20px;
+    }
+
     &__header, &__lite-header, &__small-header {
       margin-bottom: 12px;
       display: block;
+
+      @include for-specific-size($mobile-min) {
+        font-size: 16px !important;
+      }
     }
 
     &__header {
@@ -131,6 +203,10 @@
       font-size: 16px;
       line-height: 2em;
       margin-bottom: 22px;
+
+      @include for-specific-size($mobile-min) {
+        font-size: 12px !important;
+      }
     }
 
     &__buttons {
@@ -138,6 +214,11 @@
       display: flex;
       align-items: center;
       column-gap: 15px;
+
+      @include for-specific-size($mobile-min) {
+        flex-direction: column;
+        row-gap: 15px;
+      }
     }
 
     &__input {
@@ -149,6 +230,8 @@
       padding: 13px 20px;
 
       input {
+        text-overflow: ellipsis;
+        padding-right: 5px;
         border: none;
         outline: none;
         color: rgba(255, 255, 255, 0.39);
@@ -160,6 +243,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include for-specific-size($mobile-min) {
+          width: auto !important;
+        }
+      }
+    }
+
+    button {
+      @include for-specific-size($mobile-min) {
+        width: 100%;
       }
     }
 
@@ -181,9 +274,11 @@
 
     table {
       width: 100%;
+
       tr {
         td {
           padding: 12px 0;
+
           span {
             color: rgba(255, 255, 255, 0.58);
           }

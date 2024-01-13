@@ -6,7 +6,7 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 const RootReducer = combineReducers(Reducers);
 export const store = createStore(
   RootReducer,
-  composeWithDevTools(applyMiddleware(thunk)
-  )
+  undefined,
+  composeWithDevTools(applyMiddleware(thunk)),
 )
 
