@@ -3,7 +3,7 @@ import { accountTypes } from "./types";
 const initialState = {
   walletAddress: null,
   bnbBalance: 0,
-  bnbInvestInput: 0,
+  bnbInvestInput: 0.01,
   userReferralsStats: {
     checkpoint: 0,
     upliner: null,

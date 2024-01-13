@@ -139,5 +139,66 @@ export const AccountActionCreator = {
 
       dispatch(AccountActionCreator.setUserDeposits(newUserDeposits))
 
+    },
+  invest:
+    () => async (dispatch, store) => {
+      const walletRPC = store().applicationReducer.walletRPC
+      const web3 = await initWeb3(walletRPC)
+      const walletAddress = store().accountReducer.walletAddress
+      const bnbInvestInput = store().accountReducer.bnbInvestInput
+
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
+
+      const upliner = localStorage.getItem('refAddress') || walletAddress
+
+      console.log(localStorage.getItem('refAddress'), upliner)
+      const amountToSend = web3.utils.toWei(bnbInvestInput, 'ether')
+
+      console.log(amountToSend)
+
+      const investData = farmContract.methods.invest(upliner).encodeABI()
+
+
+      let investTx
+
+
+      try {
+        investTx = await web3.eth.sendTransaction({
+          from: walletAddress,
+          to: Config().FARM_ADDRESS,
+          data: investData,
+          value: amountToSend,
+        })
+      } catch (error) {
+        console.log(error)
+        return
+      }
+    },
+  withdraw:
+    () => async (dispatch, store) => {
+
+      const walletRPC = store().applicationReducer.walletRPC
+      const web3 = await initWeb3(walletRPC)
+      const walletAddress = store().accountReducer.walletAddress
+
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
+
+      const withdrawData = farmContract.methods.withdraw().encodeABI()
+
+      const gasLimit = farmContract.methods.withdraw().estimateGas({ from: walletAddress })
+
+      let withdrawTx
+
+      try {
+        withdrawTx = await web3.eth.sendTransaction({
+          from: walletAddress,
+          data: withdrawData,
+          to: Config().FARM_ADDRESS,
+          gas: gasLimit
+        })
+      } catch (error) {
+        console.log(error)
+        return
+      }
     }
 }

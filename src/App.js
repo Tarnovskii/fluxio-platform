@@ -57,11 +57,6 @@ export default () => {
 
   useEffect(() => {
     const handleAccountsChanged = (accounts) => {
-      dispatch(ApplicationActionCreator.setWalletAddress(accounts[0]))
-      dispatch(AccountActionCreator.getUserInfo())
-      dispatch(ApplicationActionCreator.getAccountBNBBalance())
-      dispatch(ApplicationActionCreator.getAccountTokenBalance())
-      console.log('Active wallet changed:', accounts);
     };
 
     const handleChainChanged = (chainId) => {
