@@ -4,6 +4,31 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  position: relative;
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    border-radius: 100%;
+    width: 455px;
+    height: 455px;
+    filter: blur(145px);
+    z-index: -1;
+  }
+
+  &:before {
+    background: rgba(220, 40, 77, 0.44);
+    left: 0;
+    top: 0;
+    transform: translate(-50%, 50%);
+  }
+
+  &:after {
+    background: rgba(0, 211, 140, 0.15);
+    left: 100%;
+    top: 0;
+    transform: translate(-50%, 50%);
+  }
 
   h1, h2 {
     flex: 0 0 100%;
