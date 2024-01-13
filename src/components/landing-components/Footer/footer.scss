@@ -1,3 +1,6 @@
+@import "../../../assets/misc/mixin.scss";
+@import "../../../assets/misc/variables.scss";
+
 .footer {
   background: rgba(0, 0, 0, 0.41);
 
@@ -5,12 +8,25 @@
     position: relative;
     padding: 70px 0 16px 0;
 
+    @include for-specific-size($mobile-mid) {
+      padding: 40px 0 16px 0;
+    }
+
     h3 {
       text-align: center;
       max-width: 970px;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 50px;
+
+      @include for-specific-size($mobile-mid) {
+        max-width: 640px;
+        margin-bottom: 30px;
+      }
+
+      @include for-specific-size($desktop-small) {
+        width: max(300px, 80%);
+      }
     }
 
     &__buttons {
@@ -21,10 +37,29 @@
       column-gap: 25px;
       position: relative;
 
+      @include for-specific-size($tablet-min) {
+        margin-bottom: 80px;
+      }
+
+      @include for-specific-size($mobile-mid) {
+        margin-bottom: 40px;
+      }
+
+      @include for-specific-size($desktop-small) {
+        flex-direction: column;
+        row-gap: 20px;
+      }
+
+      button {
+        @include for-specific-size($desktop-small) {
+          width: max(270px, 80%);
+        }
+      }
+
       &:before {
         content: '';
         position: absolute;
-        border-radius: 575px;
+        border-radius: 50%;
         width: 575px;
         height: 575px;
         filter: blur(160px);
@@ -33,6 +68,25 @@
         left: 0;
         top: 60%;
         transform: translate(50%, -50%);
+
+        @include for-specific-size($tablet-min) {
+          width: 520px;
+          height: 520px;
+          top: 30%;
+        }
+
+        @include for-specific-size($mobile-mid) {
+          width: 450px;
+          height: 450px;
+          top: 30%;
+        }
+
+        @include for-specific-size($mobile-min) {
+          width: 450px;
+          height: 450px;
+          transform: translate(-50%, -50%);
+          top: 30%;
+        }
       }
     }
 
@@ -42,6 +96,15 @@
       align-items: center;
       justify-content: center;
       column-gap: 160px;
+
+      @include for-specific-size($mobile-mid) {
+        padding: 15px 0;
+      }
+
+      @include for-specific-size($mobile-min) {
+        flex-direction: column;
+        row-gap: 15px;
+      }
 
       a {
         font-size: 14px;
@@ -57,6 +120,10 @@
       small, a {
         color: rgba(255, 255, 255, 0.50);
         font-size: 12px;
+      }
+
+      @include for-specific-size($tablet-start) {
+        padding: 0 20px;
       }
     }
   }

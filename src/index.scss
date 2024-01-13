@@ -12,6 +12,10 @@
   font-weight: 400;
   line-height: normal;
   font-family: 'Lexend', sans-serif;
+
+  @include for-specific-size($tablet-start) {
+    font-size: 14px;
+  }
 }
 
 b {
@@ -34,6 +38,26 @@ code {
 h1, h2, h3, h4 {
   font-family: 'Righteous', sans-serif;
   font-size: 64px;
+
+  @include for-specific-size($desktop-small) {
+    font-size: 60px;
+  }
+
+  @include for-specific-size($desktop-min) {
+    font-size: 58px;
+  }
+
+  @include for-specific-size($tablet-start) {
+    font-size: 48px;
+  }
+
+  @include for-specific-size($mobile-small) {
+    font-size: 38px;
+  }
+
+  @include for-specific-size($mobile-min) {
+    font-size: 32px;
+  }
 }
 
 a {
@@ -77,26 +101,37 @@ button:hover {
 .long-bttn {
   padding: 18px 0;
   width: 270px;
-  flex: 0 0 270px
+
+  @include for-specific-size($tablet-start) {
+    width: 250px;
+    padding: 16px 0;
+  }
 }
 
 .big-bttn {
   padding: 18px 0;
   width: 208px;
-  flex: 0 0 208px
+
+  @include for-specific-size($tablet-start) {
+    width: 190px;
+    padding: 16px 0;
+  }
 }
 
 .mid-bttn {
   padding: 16px 0;
   width: 190px;
-  flex: 0 0 190px
+
+  @include for-specific-size($tablet-start) {
+    width: 180px;
+    padding: 14px 0;
+  }
 }
 
 .sqr-bttn {
   display: block;
   text-align: center;
   width: 230px;
-  flex: 0 0 230px;
   border-radius: 2px;
   border: 2px solid #00D38C;
   color: #00D38C;
@@ -108,10 +143,59 @@ button:hover {
   max-width: $main-content-width;
   margin-left: auto;
   margin-right: auto;
+
+  @include for-specific-size($desktop-start) {
+    margin-left: unset;
+    margin-right: unset;
+    max-width: unset;
+    width: 100%;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  @include for-specific-size($main-content-width) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  @include for-specific-size($desktop-small) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @include for-specific-size($desktop-small) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @include for-specific-size($mobile-min) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 .con-full {
   width: 100%;
+
+  @include for-specific-size($desktop-start) {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  @include for-specific-size($main-content-width) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  @include for-specific-size($desktop-small) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @include for-specific-size($tablet-start) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 hr.con-full, hr.con-def {
@@ -125,13 +209,13 @@ hr.con-full, hr.con-def {
 .con-mob {
   display: none !important;
 
-  @include for-specific-size($mobile-start) {
-    display: unset;
+  @include for-specific-size($tablet-min) {
+    display: initial !important;
   }
 }
 
 .con-desk {
-  @include for-specific-size($mobile-start) {
+  @include for-specific-size($tablet-min) {
     display: none !important;
   }
 }

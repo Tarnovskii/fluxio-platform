@@ -1,3 +1,6 @@
+@import "../../../assets/misc/mixin.scss";
+@import "../../../assets/misc/variables.scss";
+
 .lo {
   padding-top: 50px;
 
@@ -12,5 +15,33 @@
     display: flex;
     align-items: center;
     column-gap: 55px;
+
+    @include for-specific-size($tablet-start) {
+      column-gap: 45px;
+    }
+
+    @include for-specific-size($desktop-small) {
+      flex-wrap: wrap;
+      row-gap: 30px;
+    }
+
+    @include for-specific-size($mobile-small) {
+      column-gap: 80px;
+    }
+
+    @include for-specific-size($mobile-min) {
+      column-gap: 40px;
+    }
+
+
+    img {
+      @include for-specific-size($tablet-start) {
+        height: 45px;
+      }
+
+      @include for-specific-size($mobile-small) {
+        height: 38px;
+      }
+    }
   }
 }
