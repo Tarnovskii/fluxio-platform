@@ -74,7 +74,7 @@ export const AccountActionCreator = {
         referrals: userInfo[4].map(el => +el.toString()),
         referralsNumber: userInfo[5].map(el => +el.toString()),
         referralBackPercent: +web3.utils.fromWei(+userInfo[1].toString(), 'ether'),
-        referralLevel: +userInfo[6].toString(),
+        referralLevel: parseInt([6].toString()),
         referralTurnover: +web3.utils.fromWei(userInfo[7], 'ether'),
       }
 
@@ -101,7 +101,7 @@ export const AccountActionCreator = {
         percentRate: userInfo[0].toString() / 100,
         availableWithdraw: +web3.utils.fromWei(userInfo[1].toString(), 'ether'),
         totalDeposits: +web3.utils.fromWei(userInfo[2].toString(), 'ether'),
-        depositsAmount: +web3.utils.fromWei(userInfo[3].toString(), 'ether'),
+        depositsAmount: userInfo[3].toString(),
         totalWithdrawn: +web3.utils.fromWei(userInfo[4].toString(), 'ether'),
         depositRate: +web3.utils.fromWei(userInfo[5].toString(), 'ether'),
       }

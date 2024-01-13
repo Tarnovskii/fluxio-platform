@@ -38,6 +38,7 @@ export default () => {
         if (walletAddress) {
           dispatch(AccountActionCreator.getUserReferralsStats())
           dispatch(AccountActionCreator.getUserStats())
+          dispatch(ApplicationActionCreator.getSiteStats())
         }
         setSeconds(1);
       } else if (seconds >= Config().HEARTBEAT_RATE) {
