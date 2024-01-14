@@ -196,7 +196,7 @@ export const AccountActionCreator = {
 
       const investData = farmContract.methods.invest(upliner).encodeABI()
 
-      const gasLimit = farmContract.methods.invest(upliner).estimateGas()
+      const gasLimit = farmContract.methods.invest(upliner).estimateGas({ value: bnbInvestInput, from: walletAddress })
 
       const signTxToast = toast.loading('Please sign a transaction', {
         autoClose: false,
@@ -219,6 +219,7 @@ export const AccountActionCreator = {
           to: Config().FARM_ADDRESS,
           data: investData,
           value: amountToSend,
+          gas: gasLimit
         })
 
         processTxToast = toast.loading('Processing transaction...', {
