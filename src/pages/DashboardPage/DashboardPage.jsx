@@ -46,6 +46,18 @@ export const DashboardPage = () => {
           <button disabled={!userStats.availableWithdraw} onClick={handleWithdrawButton} className={'red-bttn mid-bttn'}>Withdraw</button>
         </div>
 
+        <div className={'con-mob db__additional-info'}>
+          <div className={'db__tile'}>
+            <p className={'db__tile__small-header'}>Earned BNB</p>
+            <span className={'db__tile__light-number'}>{(userStats.totalWithdrawn + userStats.availableWithdraw).toFixed(4)}</span>
+          </div>
+
+          <div className={'db__tile'}>
+            <p className={'db__tile__small-header'}>Withdrawn BNB</p>
+            <span className={'db__tile__light-number'}>{(userStats.totalWithdrawn).toFixed(4)}</span>
+          </div>
+        </div>
+
         <div className={'db__tile'}>
           <p className={'db__tile__lite-header'}>Daily yield</p>
           <span className={'db__tile__number'}>{(dailyYield).toFixed(4)}</span>
@@ -92,7 +104,7 @@ export const DashboardPage = () => {
           </div>
         </div>
       </div>
-      <div className={'db__additional-info'}>
+      <div className={'con-desk db__additional-info'}>
         <div className={'db__tile'}>
           <p className={'db__tile__small-header'}>Earned BNB</p>
           <span className={'db__tile__light-number'}>{(userStats.totalWithdrawn + userStats.availableWithdraw).toFixed(4)}</span>
@@ -146,3 +158,4 @@ export const DashboardPage = () => {
     </section>
   )
 }
+
