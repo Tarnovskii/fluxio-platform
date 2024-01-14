@@ -2,6 +2,7 @@ import './how-to.scss'
 import {useMemo} from "react";
 
 import roundedGreenCheck from 'assets/img/rounded-gree-check.svg'
+import {useOutletContext} from "react-router-dom";
 
 const turnovers = [{
     by: 20000,
@@ -30,6 +31,8 @@ const turnovers = [{
 },]
 
 export const HowTo = () => {
+    const {openDepositModal} = useOutletContext();
+
     const turnoverTableRows = useMemo(() => {
         return turnovers.map(({by, equal}) => {
             return (
@@ -71,7 +74,7 @@ export const HowTo = () => {
                             amount of BNB to the smartcontract and start making profits. The minimum deposit amount is
                             0.01 BNB. There is no maximum limit.
                         </p>
-                        <button className={'sqr-bttn'}>Make a deposit</button>
+                        <button onClick={openDepositModal} className={'sqr-bttn'}>Make a deposit</button>
                     </div>
                 </div>
             </div>
