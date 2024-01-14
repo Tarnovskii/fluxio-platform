@@ -31,6 +31,10 @@ export const AccountActionCreator = {
   resetUserInfo: () => ({
     type: accountTypes().RESET_USER_INFO
   }),
+  setDepositRates: (depositRates) => ({
+    type: accountTypes().SET_DEPOSIT_RATES,
+    payload: depositRates
+  }),
   getBnbBalance:
     () => async (dispatch, store) => {
 
@@ -72,9 +76,13 @@ export const AccountActionCreator = {
         upliner: userInfo[0],
         referralBonusAmount: +web3.utils.fromWei(+userInfo[3].toString(), 'ether'),
         referrals: userInfo[4].map(el => +el.toString()),
-        referralsNumber: userInfo[5].map(el => +el.toString()),
+        referralsNumber: userInfo[5].reduce((curr, acc) => {
+          const referralsByLevel = parseInt(curr.toString())
+          acc = parseInt(acc.toString())
+          return acc += referralsByLevel
+        }, 0),
         referralBackPercent: +web3.utils.fromWei(+userInfo[1].toString(), 'ether'),
-        referralLevel: parseInt([6].toString()),
+        referralLevel: parseInt(userInfo[6].toString()),
         referralTurnover: +web3.utils.fromWei(userInfo[7], 'ether'),
       }
 
@@ -120,24 +128,53 @@ export const AccountActionCreator = {
       let userDeposits
 
       try {
-        userDeposits = await farmContract.methods.getUserDeposits(walletAddress, 0, 10).call()
+        userDeposits = await farmContract.methods.getUserDeposits(walletAddress, 0, 1).call()
       } catch (error) {
         console.log(error)
         return
       }
 
-      const newUserDeposits = userDeposits.amount.map((amount, index) => {
+      const newUserDeposits = userDeposits[0].map((amount, index) => {
         const deposit = {
           amount: +web3.utils.fromWei(amount.toString(), 'ether'),
-          withdrawn: +web3.utils.fromWei(userDeposits.withdrawn[index].toString(), 'ether'),
-          refBack: +web3.utils.fromWei(userDeposits.refBack[index].toString(), 'ether'),
-          start: userDeposits.start[index].toString(),
+          withdrawn: +web3.utils.fromWei(userDeposits[1][index].toString(), 'ether'),
+          refBack: +web3.utils.fromWei(userDeposits[2][index].toString(), 'ether'),
+          start: parseInt(userDeposits[3][index].toString()),
         }
 
         return deposit
       })
 
       dispatch(AccountActionCreator.setUserDeposits(newUserDeposits))
+
+    },
+  getDepositRates:
+    () => async (dispatch, store) => {
+      const walletRPC = store().applicationReducer.walletRPC
+      const walletAddress = store().accountReducer.walletAddress
+
+      const web3 = await initWeb3(walletRPC)
+
+      const farmContract = new web3.eth.Contract(FarmContract, Config().FARM_ADDRESS)
+
+      let depositRates
+
+      try {
+        depositRates = await farmContract.methods.getDepositsRates(walletAddress).call()
+      } catch (error) {
+        console.log(error)
+        return
+      }
+      const info = {
+        basePercent: depositRates[0].toString() / 100,
+        holdBonus: +web3.utils.fromWei(depositRates[1].toString(), 'ether'),
+        contractBonus: +web3.utils.fromWei(depositRates[2].toString(), 'ether'),
+        vipBonus: +web3.utils.fromWei(depositRates[3].toString(), 'ether')
+      }
+
+      console.log(info)
+
+      dispatch(AccountActionCreator.setDepositRates(info))
 
     },
   invest:
@@ -176,7 +213,7 @@ export const AccountActionCreator = {
     },
   withdraw:
     () => async (dispatch, store) => {
-
+      console.log('xyu')
       const walletRPC = store().applicationReducer.walletRPC
       const web3 = await initWeb3(walletRPC)
       const walletAddress = store().accountReducer.walletAddress
@@ -185,7 +222,7 @@ export const AccountActionCreator = {
 
       const withdrawData = farmContract.methods.withdraw().encodeABI()
 
-      const gasLimit = farmContract.methods.withdraw().estimateGas({ from: walletAddress })
+      const gasLimit = await farmContract.methods.withdraw().estimateGas({ from: walletAddress })
 
       let withdrawTx
 

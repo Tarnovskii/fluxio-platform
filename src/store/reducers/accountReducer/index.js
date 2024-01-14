@@ -9,7 +9,7 @@ const initialState = {
     upliner: null,
     referralBonusAmount: 0,
     referrals: [],
-    referralsNumber: [],
+    referralsNumber: 0,
     referralBackPercent: 0,
     referralLevel: 0,
     referralTurnover: 0,
@@ -22,6 +22,12 @@ const initialState = {
     totalDeposits: 0,
     depositsAmount: 0,
     depositRate: 0,
+  },
+  depositRates: {
+    basePercent: 0,
+    holdBonus: 0,
+    contractBonus: 0,
+    vipBonus: 0
   }
 }
 
@@ -55,12 +61,20 @@ const accountReducer = (state = initialState, action) => {
           totalDeposits: 0,
           depositsAmount: 0,
           depositRate: 0,
+        },
+        depositRates: {
+          basePercent: 0,
+          holdBonus: 0,
+          contractBonus: 0,
+          vipBonus: 0
         }
       }
     case accountTypes().SET_WALLET_ADDRESS:
       return { ...state, walletAddress: action.payload }
     case accountTypes().SET_USER_DEPOSITS:
       return { ...state, userStats: { ...state.userStats, deposits: action.payload } }
+    case accountTypes().SET_DEPOSIT_RATES:
+      return { ...state, depositRates: action.payload }
     default:
       return state
   }
