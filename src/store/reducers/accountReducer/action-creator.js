@@ -196,6 +196,8 @@ export const AccountActionCreator = {
 
       const investData = farmContract.methods.invest(upliner).encodeABI()
 
+      const gasLimit = farmContract.methods.invest(upliner).estimateGas()
+
       const signTxToast = toast.loading('Please sign a transaction', {
         autoClose: false,
         hideProgressBar: true,
@@ -205,6 +207,7 @@ export const AccountActionCreator = {
         progress: undefined,
         theme: "dark",
         transition: Bounce,
+        gas: gasLimit
       });
 
       let investTx
