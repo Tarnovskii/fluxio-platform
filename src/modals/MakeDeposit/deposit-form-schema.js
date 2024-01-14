@@ -1,12 +1,18 @@
-import {object, number} from "yup"
+import { object, number } from "yup"
 
-const depositFormSchema = object({
+const getDepositFormSchema = (minDep, maxDep) => {
+  return object({
     depositValue: number().test({
-        test: (value) => value > 0,
-        name: 'more-then-zero',
-        message: 'Amount should me more then 0.',
+      test: (value) => value >= minDep,
+      name: 'more-then-min',
+      message: `Amount should me more than ${minDep}`,
+    }).test({
+      test: (value) => value <= maxDep,
+      name: 'less-then-max',
+      message: 'Not enough BNB on balance',
     }).required('You have to input valid number of BNB').typeError('You have to input valid number of BNB')
-})
+  })
+}
 
 
-export default depositFormSchema;
+export default getDepositFormSchema;

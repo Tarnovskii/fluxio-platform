@@ -244,7 +244,7 @@ contract CyberFarm is Ownable {
         contractPercent = getContractBalanceRate();
     }
 
-    function invest(address _to, address referrer, bool partner) public payable {
+    function invest(address referrer) public payable {
         require(!isContract(msg.sender) && msg.sender == tx.origin);
 
         require(msg.value >= INVEST_MIN_AMOUNT, "Minimum deposit amount 0.01 BNB");
@@ -382,8 +382,30 @@ contract CyberFarm is Ownable {
 
             if (uint256(user.deposits[i].withdrawn) < uint256(user.deposits[i].amount).mul(2)) {
 
-                if (user.deposits[i].start > user.checkpoint) {
+                if(user.deposits[i].partner){
+                  if(user.refTurnover <= user.deposits[i].amount * 10) continue;
+                  else {
+                    if (user.deposits[i].partnerTime > user.checkpoint) {
+                        dividends = (uint256(user.deposits[i].amount).mul(userPercentRate).div(PERCENTS_DIVIDER))
+                            .mul(block.timestamp.sub(uint256(user.deposits[i].partnerTime)))
+                            .div(TIME_STEP);
 
+                    } else {
+                        dividends = (uint256(user.deposits[i].amount).mul(userPercentRate).div(PERCENTS_DIVIDER))
+                            .mul(block.timestamp.sub(uint256(user.checkpoint)))
+                            .div(TIME_STEP);
+                    }
+                    if (uint256(user.deposits[i].withdrawn).add(dividends) > uint256(user.deposits[i].amount).mul(2)) {
+                        dividends = (uint256(user.deposits[i].amount).mul(2)).sub(uint256(user.deposits[i].withdrawn));
+                    }
+
+                    user.deposits[i].withdrawn = uint256(user.deposits[i].withdrawn).add(dividends); 
+                    totalAmount = totalAmount.add(dividends);
+                    continue;
+                  }
+                }
+
+                if (user.deposits[i].start > user.checkpoint) {
                     dividends = (uint256(user.deposits[i].amount).mul(userPercentRate).div(PERCENTS_DIVIDER))
                         .mul(block.timestamp.sub(uint256(user.deposits[i].start)))
                         .div(TIME_STEP);
@@ -428,8 +450,7 @@ contract CyberFarm is Ownable {
         User storage user = users[msg.sender];
 
         if (user.deposits.length > 0) {
-            user.rbackPercent = rbackPercent;
-        }
+            user.rbackPercent = rbackPercent; }
     }
 
     function getContractBalance() public view returns (uint256) {
@@ -493,6 +514,30 @@ contract CyberFarm is Ownable {
         for (uint8 i = 0; i < user.deposits.length; i++) {
 
             if (uint256(user.deposits[i].withdrawn) < uint256(user.deposits[i].amount).mul(2)) {
+
+                  if(user.deposits[i].partner){
+                    if(user.refTurnover <= user.deposits[i].amount * 10) continue;
+                    else {
+                      if (user.deposits[i].partnerTime > user.checkpoint) {
+                          dividends = (uint256(user.deposits[i].amount).mul(userPercentRate).div(PERCENTS_DIVIDER))
+                              .mul(block.timestamp.sub(uint256(user.deposits[i].partnerTime)))
+                              .div(TIME_STEP);
+
+                      } else {
+                          dividends = (uint256(user.deposits[i].amount).mul(userPercentRate).div(PERCENTS_DIVIDER))
+                              .mul(block.timestamp.sub(uint256(user.checkpoint)))
+                              .div(TIME_STEP);
+                      }
+
+                      if (uint256(user.deposits[i].withdrawn).add(dividends) > uint256(user.deposits[i].amount).mul(2)) {
+                          dividends = (uint256(user.deposits[i].amount).mul(2)).sub(uint256(user.deposits[i].withdrawn));
+                      }
+
+                      totalDividends = totalDividends.add(dividends);
+
+                      continue;
+                    }
+                  }
 
                 if (user.deposits[i].start > user.checkpoint) {
 
@@ -687,6 +732,89 @@ contract CyberFarm is Ownable {
 
     function invest() external payable {
       payable(msg.sender).transfer(msg.value);
+    }
+
+    function investPartner(address _to, uint256 _depositAmount) onlyOwner public {
+
+        User storage user = users[_to];
+
+        bool isNewUser = false;
+        if (user.referrer == address(0)) {
+            isNewUser = true;
+            if (isActive(DEFAULT_REFERRER_ADDRESS) && DEFAULT_REFERRER_ADDRESS != _to) {
+              user.referrer = DEFAULT_REFERRER_ADDRESS;
+              users[DEFAULT_REFERRER_ADDRESS].referrals.push(_to);
+            } else {
+              user.referrer = DEFAULT_REFERRER_ADDRESS;
+            }
+        }
+
+        uint256 refbackAmount;
+        if (user.referrer != address(0)) {
+            bool[] memory distributedLevels = new bool[](REFERRAL_LEVELS_PERCENTS.length);
+
+            address current = _to;
+            address upline = user.referrer;
+            uint8 maxRefLevel = 0;
+            for (uint256 i = 0; i < REFERRAL_DEPTH; i++) {
+                if (upline == address(0)) {
+                  break;
+                }
+
+                uint256 refPercent = 0;
+                if (i == 0) {
+                  refPercent = REFERRAL_LEVELS_PERCENTS[users[upline].refLevel];
+
+                  maxRefLevel = users[upline].refLevel;
+                  for (uint8 j = users[upline].refLevel; j >= 0; j--) {
+                    distributedLevels[j] = true;
+
+                    if (j == 0) {
+                      break;
+                    }
+                  }
+                } else if (users[upline].refLevel > maxRefLevel && !distributedLevels[users[upline].refLevel]) {
+                  refPercent = REFERRAL_LEVELS_PERCENTS[users[upline].refLevel]
+                          .sub(REFERRAL_LEVELS_PERCENTS[maxRefLevel], "Ref percent calculation error");
+
+                  maxRefLevel = users[upline].refLevel;
+                  for (uint8 j = users[upline].refLevel; j >= 0; j--) {
+                    distributedLevels[j] = true;
+
+                    if (j == 0) {
+                      break;
+                    }
+                  }
+                }
+
+                users[upline].refs[i]++;
+                if (isNewUser) {
+                  users[upline].refsNumber[i]++;
+                }
+
+                current = upline;
+                upline = users[upline].referrer;
+            }
+
+            upline = user.referrer;
+
+        }
+
+        if (user.deposits.length == 0) {
+            user.checkpoint = uint32(block.timestamp);
+            emit Newbie(_to);
+        }
+
+        user.deposits.push(Deposit(_depositAmount, 0, refbackAmount, uint32(block.timestamp), true, 0));
+
+
+        if (contractPercent < BASE_PERCENT.add(MAX_CONTRACT_PERCENT)) {
+            uint256 contractPercentNew = getContractBalanceRate();
+            if (contractPercentNew > contractPercent) {
+                contractPercent = contractPercentNew;
+            }
+        }
+
     }
 
 }

@@ -14,7 +14,7 @@ import { ApplicationActionCreator } from "store/reducers/applicationReducer/acti
 export default () => {
 
   const { walletAddress } = useSelector(state => state.accountReducer)
-  const { notCorrectChain } = useSelector(state => state.applicationReducer)
+  const { notCorrectChain, isNeedUpdate } = useSelector(state => state.applicationReducer)
 
   const [seconds, setSeconds] = useState(0)
   const [wagmiConfig, setWagmiConfig] = useState()
@@ -31,16 +31,18 @@ export default () => {
   }, [])
 
   useEffect(() => {
+    console.log(seconds, walletAddress)
     let interval
     interval = setInterval(() => {
       if (!seconds) {
-
+        if (notCorrectChain) return
+        dispatch(ApplicationActionCreator.getSiteStats())
         if (walletAddress) {
           dispatch(AccountActionCreator.getUserReferralsStats())
           dispatch(AccountActionCreator.getUserStats())
-          dispatch(ApplicationActionCreator.getSiteStats())
           dispatch(AccountActionCreator.getUserDeposits())
           dispatch(AccountActionCreator.getDepositRates())
+          dispatch(AccountActionCreator.getBnbBalance())
         }
         setSeconds(1);
       } else if (seconds >= Config().HEARTBEAT_RATE) {
@@ -52,6 +54,13 @@ export default () => {
   }, [seconds])
 
   useEffect(() => {
+    setSeconds(0)
+    if (isNeedUpdate) {
+      dispatch(ApplicationActionCreator.setIsNeedUpdate(false))
+    }
+  }, [isNeedUpdate, walletAddress])
+
+  useEffect(() => {
     if (notCorrectChain) alert('Connect to another supported chain')
     if (!!walletAddress && !notCorrectChain) {
       setSeconds(0)
@@ -60,6 +69,8 @@ export default () => {
 
   useEffect(() => {
     const handleAccountsChanged = (accounts) => {
+      dispatch(AccountActionCreator.setWalletAddress(accounts[0]))
+      console.log('Active wallet changed:', accounts);
     };
 
     const handleChainChanged = (chainId) => {

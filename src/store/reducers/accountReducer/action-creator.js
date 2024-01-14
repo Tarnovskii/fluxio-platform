@@ -2,6 +2,7 @@ import { initWeb3 } from "utils/initWeb3";
 import { accountTypes } from "./types";
 import FarmContract from 'contracts/FarmContract.json'
 import { Config } from "config";
+import { ApplicationActionCreator } from "../applicationReducer/action-creator";
 
 export const AccountActionCreator = {
   setUserStats: (userStats) => ({
@@ -39,7 +40,7 @@ export const AccountActionCreator = {
     () => async (dispatch, store) => {
 
       const walletRPC = store().applicationReducer.walletRPC
-      const walletAddress = store().applicationReducer.walletAddress
+      const walletAddress = store().accountReducer.walletAddress
       const web3 = await initWeb3(walletRPC)
 
       let bnbBalance
@@ -52,7 +53,6 @@ export const AccountActionCreator = {
         console.log(error)
         return
       }
-
       dispatch(AccountActionCreator.setBnbBalance(bnbBalance))
     },
   getUserReferralsStats:
@@ -210,6 +210,8 @@ export const AccountActionCreator = {
         console.log(error)
         return
       }
+
+      dispatch(ApplicationActionCreator.setIsNeedUpdate(true))
     },
   withdraw:
     () => async (dispatch, store) => {
@@ -237,5 +239,7 @@ export const AccountActionCreator = {
         console.log(error)
         return
       }
+
+      dispatch(ApplicationActionCreator.setIsNeedUpdate(true))
     }
 }
