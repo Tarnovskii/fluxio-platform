@@ -54,7 +54,7 @@ export default () => {
   }, [seconds])
 
   useEffect(() => {
-    setSeconds(0)
+    setSeconds(-1)
     if (isNeedUpdate) {
       dispatch(ApplicationActionCreator.setIsNeedUpdate(false))
     }
