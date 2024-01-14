@@ -34,6 +34,10 @@ export const ApplicationActionCreator = {
     type: applicationTypes().SET_CONTRACT_PERCENT,
     payload: contractPercent
   }),
+  setIsNeedUpdate: (isNeedUpdate) => ({
+    type: applicationTypes().SET_IS_NEED_UPDATE,
+    payload: isNeedUpdate
+  }),
   connectWallet:
     () => async (dispatch, store) => {
 

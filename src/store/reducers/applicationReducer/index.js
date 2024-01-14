@@ -7,7 +7,8 @@ const initialState = {
   defaultReferrer: null,
   totalBnbDeposit: 0,
   participants: 0,
-  contractPercent: 0
+  contractPercent: 0,
+  isNeedUpdate: 0
 }
 
 const applicationReducer = (state = initialState, action) => {
@@ -26,6 +27,8 @@ const applicationReducer = (state = initialState, action) => {
       return { ...state, participants: action.payload }
     case applicationTypes().SET_CONTRACT_PERCENT:
       return { ...state, contractPercent: action.payload }
+    case applicationTypes().SET_IS_NEED_UPDATE:
+      return { ...state, isNeedUpdate: action.payload }
     default:
       return state
   }

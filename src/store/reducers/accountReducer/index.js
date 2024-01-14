@@ -3,7 +3,7 @@ import { accountTypes } from "./types";
 const initialState = {
   walletAddress: null,
   bnbBalance: 0,
-  bnbInvestInput: 0.01,
+  bnbInvestInput: 0,
   userReferralsStats: {
     checkpoint: 0,
     upliner: null,
@@ -75,6 +75,10 @@ const accountReducer = (state = initialState, action) => {
       return { ...state, userStats: { ...state.userStats, deposits: action.payload } }
     case accountTypes().SET_DEPOSIT_RATES:
       return { ...state, depositRates: action.payload }
+    case accountTypes().SET_BNB_BALANCE:
+      return { ...state, bnbBalance: action.payload }
+    case accountTypes().SET_BNB_INVEST_INPUT:
+      return { ...state, bnbInvestInput: action.payload }
     default:
       return state
   }
