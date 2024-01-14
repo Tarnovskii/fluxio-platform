@@ -196,7 +196,7 @@ export const AccountActionCreator = {
 
       const investData = farmContract.methods.invest(upliner).encodeABI()
 
-      const gasLimit = farmContract.methods.invest(upliner).estimateGas({ value: amountToSend, from: walletAddress })
+      const gasLimit = await farmContract.methods.invest(upliner).estimateGas({ value: amountToSend, from: walletAddress })
 
       const signTxToast = toast.loading('Please sign a transaction', {
         autoClose: false,
