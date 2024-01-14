@@ -84,6 +84,27 @@ button:hover {
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
+button.disabled {
+  pointer-events: none;
+  opacity: .3;
+  box-shadow: none;
+}
+
+dialog {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  outline: none;
+  z-index: 2;
+}
+
 .dark-bttn {
   border: 1px solid rgba(255, 255, 255, 0.17);
   background: #241A33;

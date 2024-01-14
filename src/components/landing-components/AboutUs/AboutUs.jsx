@@ -4,15 +4,18 @@ import greenCheck from 'assets/img/green-check.svg'
 import greenGlobe from 'assets/img/green-globe.svg'
 import greenShield from 'assets/img/green-shield.svg'
 import greenLock from 'assets/img/green-lock.svg'
+import {useOutletContext} from "react-router-dom";
 
 export const AboutUs = () => {
+    const {openDepositModal} = useOutletContext();
+
     return (
         <section className='con-def au'>
             <div className='au__text'>
                 <h2>Fluxio - a Break through of <span>the Year 2023</span></h2>
                 <p>The project combines the security of smartcontracts and the best options for earning,
                     including income from investments, staking and a unique referral program.</p>
-                <button className='red-bttn mid-bttn'>Make a deposit</button>
+                <button onClick={openDepositModal} className='red-bttn mid-bttn'>Make a deposit</button>
             </div>
             <div className='au__tiles'>
                 <div className={'au__tiles__tile'}>
