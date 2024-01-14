@@ -30,6 +30,12 @@
     }
   }
 
+  &__connect-wallet, button[type='submit'] {
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
   button[type='submit'] {
     margin-top: 20px;
     width: 100%;
