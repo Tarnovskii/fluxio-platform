@@ -2,6 +2,30 @@
 @import 'assets/misc/mixin.scss';
 @import 'assets/misc/variables.scss';
 
+:root {
+  --toastify-color-dark: #1D2127 !important;
+  --toastify-color-progress-success: #10d47f !important;
+  --toastify-color-progress-warning: #e3cd04 !important;
+  --toastify-color-progress-error: red !important;
+
+  --toastify-icon-color-success: var(--toastify-color-progress-success) !important;
+  --toastify-icon-color-warning: var(--toastify-color-progress-warning) !important;
+  --toastify-icon-color-error: var(--toastify-color-progress-error) !important;
+}
+
+.Toastify__toast--success {
+  border-radius: 8px;
+}
+
+.Toastify__toast--warning {
+  border-radius: 8px;
+}
+
+.Toastify__toast--error {
+  border-radius: 8px;
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -99,7 +123,7 @@ dialog {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   border: none;
   outline: none;
   z-index: 2;

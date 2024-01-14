@@ -1,3 +1,4 @@
+import { injectStyle } from "react-toastify/dist/inject-style";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
@@ -7,6 +8,9 @@ import { Provider } from 'react-redux';
 import { store } from 'store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+injectStyle();
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -6,6 +6,8 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import depositFormSchema from "./deposit-form-schema";
 import classnames from "classnames";
+import {useSelector} from "react-redux";
+import {useWeb3Modal} from "@web3modal/react";
 
 const rulesList = [
     "Your sponsor's wallet: No upline.",
@@ -18,6 +20,9 @@ const rulesList = [
 ]
 
 export const MakeDeposit = ({closeModal}) => {
+    const { walletAddress } = useSelector(state => state.accountReducer);
+    const { open } = useWeb3Modal();
+
     const rulesListTiles = useMemo(() => {
         return rulesList.map(rule => {
             return <li><img src={greenRoundedCheck} alt={'greenRoundedCheck'}/>{rule}</li>
@@ -40,6 +45,10 @@ export const MakeDeposit = ({closeModal}) => {
         console.log(data)
     }
 
+    const connectWalletHandler = () => {
+        open();
+    }
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={'mdm'}>
             <h2>MAKE NEW DEPOSIT</h2>
@@ -50,10 +59,15 @@ export const MakeDeposit = ({closeModal}) => {
                 </svg>
             </button>
             <fieldset>
-                <legend>Enter the BNB deposit amounts <span>1615 BNB</span></legend>
-                <input {...register('depositValue')}/>
-                {errors.depositValue && <small>{errors.depositValue?.message}</small>}
-                <button className={classnames('red-bttn', 'big-bttn', {'disabled': errors.depositValue})} type={'submit'}>Deposit</button>
+                {!walletAddress && <button onClick={connectWalletHandler} className='red-bttn big-bttn mdm__connect-wallet'>Connect wallet</button> }
+                {walletAddress && (
+                    <>
+                        <legend>Enter the BNB deposit amounts <span>1615 BNB</span></legend>
+                        <input {...register('depositValue')}/>
+                        {errors.depositValue && <small>{errors.depositValue?.message}</small>}
+                        <button className={classnames('red-bttn', 'big-bttn', {'disabled': errors.depositValue})} type={'submit'}>Deposit</button>
+                    </>
+                )}
             </fieldset>
             <ul>
                 {rulesListTiles}
