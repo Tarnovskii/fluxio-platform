@@ -3,6 +3,7 @@ import { accountTypes } from "./types";
 import FarmContract from 'contracts/FarmContract.json'
 import { Config } from "config";
 import { ApplicationActionCreator } from "../applicationReducer/action-creator";
+import { Bounce, toast } from "react-toastify";
 
 export const AccountActionCreator = {
   setUserStats: (userStats) => ({
@@ -195,21 +196,79 @@ export const AccountActionCreator = {
 
       const investData = farmContract.methods.invest(upliner).encodeABI()
 
+      const signTxToast = toast.loading('Please sign a transaction', {
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
 
       let investTx
-
-
+      let processTxToast
       try {
+
         investTx = await web3.eth.sendTransaction({
           from: walletAddress,
           to: Config().FARM_ADDRESS,
           data: investData,
           value: amountToSend,
         })
+
+        processTxToast = toast.loading('Processing transaction...', {
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+
+        toast.dismiss(signTxToast)
+
       } catch (error) {
+        toast.dismiss(signTxToast)
+        toast.dismiss(processTxToast)
+        const errorTxToast = toast.error(error.message, {
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+        dispatch(AccountActionCreator.setBnbInvestInput(0))
+
         console.log(error)
         return
       }
+
+      const successText = `
+        <p>You are successfuly deposited ${bnbInvestInput} BNB</p>
+        <a target='_blank' href='${Config().BSC_SCAN_URL}${investTx.transactionHash}'>${investTx.transactionHash}</a>
+      `
+
+      toast.dismiss(processTxToast)
+
+      const successTxToast = toast.success(successText, {
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+
+      dispatch(AccountActionCreator.setBnbInvestInput(0))
 
       dispatch(ApplicationActionCreator.setIsNeedUpdate(true))
     },
@@ -228,6 +287,18 @@ export const AccountActionCreator = {
 
       let withdrawTx
 
+      const signTxToast = toast.loading('Please sign a transaction', {
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+
+      let processTxToast
       try {
         withdrawTx = await web3.eth.sendTransaction({
           from: walletAddress,
@@ -235,10 +306,52 @@ export const AccountActionCreator = {
           to: Config().FARM_ADDRESS,
           gas: gasLimit
         })
+
+        processTxToast = toast.loading('Processing transaction...', {
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       } catch (error) {
+        toast.dismiss(signTxToast)
+        toast.dismiss(processTxToast)
+        const errorTxToast = toast.error(error.message, {
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+
         console.log(error)
         return
       }
+
+      const successText = `
+        <p>You are successfuly withdrawn BNB</p>
+        <a target='_blank' href='${Config().BSC_SCAN_URL}${withdrawTx.transactionHash}'>${withdrawTx.transactionHash}</a>
+      `
+
+      toast.dismiss(processTxToast)
+
+      const successTxToast = toast.success(successText, {
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
 
       dispatch(ApplicationActionCreator.setIsNeedUpdate(true))
     }
