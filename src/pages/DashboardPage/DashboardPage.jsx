@@ -7,11 +7,14 @@ import { useCallback, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AccountActionCreator } from 'store/reducers/accountReducer/action-creator';
 import {withAuth} from "../../hocs/withAuth";
+import {useOutletContext} from "react-router-dom";
 
 export const DashboardPage = withAuth(() => {
   const referralInputRef = useRef(null)
   const { walletAddress, userStats, userReferralsStats, depositRates } = useSelector(state => state.accountReducer)
   const dispatch = useDispatch()
+
+  const {openDepositModal} = useOutletContext();
 
   const referralLink = useMemo(() => {
     return `https://bnbpulse.com/?ref=${walletAddress}`
@@ -100,7 +103,7 @@ export const DashboardPage = withAuth(() => {
               </tbody>
             </table>
             <div className={'db__tile__buttons'}>
-              <button className={'red-bttn mid-bttn'}>Make new deposit</button>
+              <button onClick={openDepositModal} className={'red-bttn mid-bttn'}>Make new deposit</button>
               <button className={'trnp-bttn mid-bttn'}>Deposits history</button>
             </div>
           </div>
