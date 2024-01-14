@@ -39,6 +39,8 @@ export default () => {
           dispatch(AccountActionCreator.getUserReferralsStats())
           dispatch(AccountActionCreator.getUserStats())
           dispatch(ApplicationActionCreator.getSiteStats())
+          dispatch(AccountActionCreator.getUserDeposits())
+          dispatch(AccountActionCreator.getDepositRates())
         }
         setSeconds(1);
       } else if (seconds >= Config().HEARTBEAT_RATE) {
