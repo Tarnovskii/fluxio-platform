@@ -8,6 +8,8 @@ import classnames from "classnames";
 import { useDispatch, useSelector } from 'react-redux';
 import getDepositFormSchema from './deposit-form-schema';
 import { AccountActionCreator } from 'store/reducers/accountReducer/action-creator';
+import {useWeb3Modal} from "@web3modal/react";
+
 
 const rulesList = [
   "Your sponsor's wallet: No upline.",
@@ -19,51 +21,71 @@ const rulesList = [
   "Accruals are sent directly to your wallet, you can order a payment at any time."
 ]
 
-export const MakeDeposit = ({ closeModal }) => {
 
-  const { bnbBalance, bnbInvestInput } = useSelector(state => state.accountReducer)
-  const dispatch = useDispatch()
+export const MakeDeposit = ({closeModal}) => {
+    const { walletAddress } = useSelector(state => state.accountReducer);
+    const { open } = useWeb3Modal();
+    const { bnbBalance, bnbInvestInput } = useSelector(state => state.accountReducer)
+    const dispatch = useDispatch()
 
-  const rulesListTiles = useMemo(() => {
-    return rulesList.map(rule => {
-      return <li><img src={greenRoundedCheck} alt={'greenRoundedCheck'} />{rule}</li>
+    const rulesListTiles = useMemo(() => {
+        return rulesList.map(rule => {
+            return <li><img src={greenRoundedCheck} alt={'greenRoundedCheck'}/>{rule}</li>
+        })
+    }, [rulesList])
+
+    const {
+      register,
+      handleSubmit,
+      watch,
+      formState: { errors },
+    } = useForm({
+      resolver: yupResolver(getDepositFormSchema(0.01, bnbBalance)),
+      defaultValues: {
+        depositValue: 0
+      }
     })
-  }, [rulesList])
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(getDepositFormSchema(0.01, bnbBalance)),
-    defaultValues: {
-      depositValue: 0
+  
+    const onSubmit = (data) => {
+      dispatch(AccountActionCreator.setBnbInvestInput(data.depositValue))
+      dispatch(AccountActionCreator.invest())
     }
-  })
 
-  const onSubmit = (data) => {
-    dispatch(AccountActionCreator.setBnbInvestInput(data.depositValue))
-    dispatch(AccountActionCreator.invest())
-  }
+    const connectWalletHandler = () => {
+       open();
+    }
 
+ 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={'mdm'}>
       <h2>MAKE NEW DEPOSIT</h2>
       <button className={'mdm__close'} onClick={closeModal} type={'button'}>
-        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="30" height="30" rx="4" fill="black" fill-opacity="0.65" />
-          <path d="M15.0002 13.586L19.9502 8.63599L21.3642 10.05L16.4142 15L21.3642 19.95L19.9502 21.364L15.0002 16.414L10.0502 21.364L8.63623 19.95L13.5862 15L8.63623 10.05L10.0502 8.63599L15.0002 13.586Z" fill="#5F6574" />
-        </svg>
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="30" height="30" rx="4" fill="black" fill-opacity="0.65"/>
+              <path
+                  d="M15.0002 13.586L19.9502 8.63599L21.3642 10.05L16.4142 15L21.3642 19.95L19.9502 21.364L15.0002 16.414L10.0502 21.364L8.63623 19.95L13.5862 15L8.63623 10.05L10.0502 8.63599L15.0002 13.586Z"
+                  fill="#5F6574"/>
+          </svg>
       </button>
       <fieldset>
-        <legend>Enter the BNB deposit amounts <span>{bnbBalance.toFixed(4)} BNB</span></legend>
-        <input {...register('depositValue')} />
-        {errors.depositValue && <small>{errors.depositValue?.message}</small>}
-        <button className={classnames('red-bttn', 'big-bttn', { 'disabled': errors.depositValue })} type={'submit'}>Deposit</button>
+          {!walletAddress &&
+              <button onClick={connectWalletHandler} className='red-bttn big-bttn mdm__connect-wallet'>Connect
+                  wallet</button>}
+          {walletAddress && (
+              <>
+                  <legend>Enter the BNB deposit amounts <span>{bnbBalance.toFixed(4)} BNB</span></legend>
+                  <input {...register('depositValue')} />
+                  {errors.depositValue && <small>{errors.depositValue?.message}</small>}
+                  <button className={classnames('red-bttn', 'big-bttn', {'disabled': errors.depositValue})}
+                          type={'submit'}>Deposit
+                  </button>
+              </>
+          )}
+
       </fieldset>
       <ul>
-        {rulesListTiles}
+          {rulesListTiles}
       </ul>
     </form>
   )
