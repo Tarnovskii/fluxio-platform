@@ -6,8 +6,22 @@
 
   &__main {
     padding: 90px 0 110px 0;
-    background: url("../../../assets/img/smart-stats-background.svg") center center no-repeat;
-    background-size: 100%;
+    position: relative;
+
+    &__bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: url("../../../assets/img/smart-stats-background.svg") center center no-repeat;
+      background-size: 100%;
+
+      @include for-specific-size($mobile-min) {
+        background: url("../../../assets/img/smart-stats-background-mob.svg") center center no-repeat;
+        background-size: 100% auto;
+      }
+    }
 
     @include for-specific-size($mobile-mid) {
       padding: 40px 0 40px 0;
@@ -18,8 +32,6 @@
     }
 
     @include for-specific-size($mobile-min) {
-      background: url("../../../assets/img/smart-stats-background-mob.svg") center center no-repeat;
-      background-size: 100% auto;
       padding: 40px 20px 80px 20px;
     }
 

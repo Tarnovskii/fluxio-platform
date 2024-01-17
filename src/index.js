@@ -1,4 +1,5 @@
 import { injectStyle } from "react-toastify/dist/inject-style";
+import "animate.css/animate.min.css";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
