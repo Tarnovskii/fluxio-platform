@@ -254,14 +254,19 @@ export const AccountActionCreator = {
         return
       }
 
-      const successText = `
-        <p>You are successfuly deposited ${bnbInvestInput} BNB</p>
-        <a target='_blank' href='${Config().BSC_SCAN_URL}${investTx.transactionHash}'>${investTx.transactionHash}</a>
-      `
+      const SuccessText = () => {
+        return (
+          <>
+            <p>You are successfuly invested {bnbInvestInput} BNB</p>
+            <a target='_blank' href={`${Config().BSC_SCAN_URL}${investTx.transactionHash}`}>{investTx.transactionHash}</a >
+          </>
+        )
+      }
+
 
       toast.dismiss(processTxToast)
 
-      const successTxToast = toast.success(successText, {
+      const successTxToast = toast.success(<SuccessText />, {
         autoClose: 10000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -339,14 +344,19 @@ export const AccountActionCreator = {
         return
       }
 
-      const successText = `
-        <p>You are successfuly withdrawn BNB</p>
-        <a target='_blank' href='${Config().BSC_SCAN_URL}${withdrawTx.transactionHash}'>${withdrawTx.transactionHash}</a>
-      `
+      const SuccessText = () => {
+        return (
+          <>
+            <p>You are successfuly withdrawn BNB</p>
+            <a target='_blank' href={`${Config().BSC_SCAN_URL}${withdrawTx.transactionHash}`}>{withdrawTx.transactionHash}</a >
+          </>
+        )
+      }
+
 
       toast.dismiss(processTxToast)
 
-      const successTxToast = toast.success(successText, {
+      const successTxToast = toast.success(<SuccessText />, {
         autoClose: 10000,
         hideProgressBar: false,
         closeOnClick: true,

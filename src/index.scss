@@ -90,9 +90,16 @@ a {
   transition: .3s all;
 }
 
+a[target='_blank']{
+  text-decoration: underline;
+  font-style: oblique;
+}
+
 a:hover {
   text-shadow: 3px 3px 3px rgba(0, 0, 0.3);
 }
+
+
 
 button {
   transition: .3s all;
