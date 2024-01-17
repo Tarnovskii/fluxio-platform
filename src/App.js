@@ -31,7 +31,6 @@ export default () => {
   }, [])
 
   useEffect(() => {
-    console.log(seconds, walletAddress)
     let interval
     interval = setInterval(() => {
       if (!seconds) {

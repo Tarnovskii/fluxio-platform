@@ -121,6 +121,7 @@ export const AccountActionCreator = {
     () => async (dispatch, store) => {
       const walletRPC = store().applicationReducer.walletRPC
       const walletAddress = store().accountReducer.walletAddress
+      const depositsAmount = store().accountReducer.userStats.depositsAmount
 
       const web3 = await initWeb3(walletRPC)
 
@@ -129,7 +130,7 @@ export const AccountActionCreator = {
       let userDeposits
 
       try {
-        userDeposits = await farmContract.methods.getUserDeposits(walletAddress, 0, 1).call()
+        userDeposits = await farmContract.methods.getUserDeposits(walletAddress, 0, depositsAmount).call()
       } catch (error) {
         console.log(error)
         return
@@ -198,6 +199,8 @@ export const AccountActionCreator = {
 
       const gasLimit = await farmContract.methods.invest(upliner).estimateGas({ value: amountToSend, from: walletAddress })
 
+      console.log(upliner, walletAddress, amountToSend)
+
       const signTxToast = toast.loading('Please sign a transaction', {
         autoClose: false,
         hideProgressBar: true,
@@ -207,7 +210,6 @@ export const AccountActionCreator = {
         progress: undefined,
         theme: "dark",
         transition: Bounce,
-        gas: gasLimit
       });
 
       let investTx
