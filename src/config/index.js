@@ -8,7 +8,8 @@ export const Config = () => {
       BASE_URL: '/',
       PROJECT_ID: '5b88e380cb7f9736a57c4175e26f1c55',
       CHAIN_ID: 97,
-      BSC_SCAN_URL: 'https://testnet.bscscan.com/tx/'
+      BSC_SCAN_URL: 'https://testnet.bscscan.com/tx/',
+      BSC_SCAN_CONTRACT: 'https://testnet.bscscan.com/address/'
     }
   } else {
     return {
@@ -18,7 +19,8 @@ export const Config = () => {
       BASE_URL: '/',
       PROJECT_ID: '5b88e380cb7f9736a57c4175e26f1c55',
       CHAIN_ID: 97,
-      BSC_SCAN_URL: 'https://testnet.bscscan.com/tx/'
+      BSC_SCAN_URL: 'https://testnet.bscscan.com/tx/',
+      BSC_SCAN_CONTRACT: 'https://testnet.bscscan.com/address/'
     }
   }
 }

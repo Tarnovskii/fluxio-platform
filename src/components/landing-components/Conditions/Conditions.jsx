@@ -50,7 +50,7 @@ export const Conditions = () => {
   }, [conditionRules])
 
   return (
-    <section className={'con-def cond'}>
+    <section id={'investments'} className={'con-def cond'}>
       <h2>Investment conditions</h2>
       <p className={'cond__sub-header'}>Best offer on the market</p>
       <div className={'cond__tiles'}>

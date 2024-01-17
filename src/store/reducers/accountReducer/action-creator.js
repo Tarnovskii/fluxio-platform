@@ -260,7 +260,7 @@ export const AccountActionCreator = {
         return (
           <>
             <p>You are successfuly invested {bnbInvestInput} BNB</p>
-            <a target='_blank' href={`${Config().BSC_SCAN_URL}${investTx.transactionHash}`}>{investTx.transactionHash}</a >
+            <a className={'oblique'} target='_blank' href={`${Config().BSC_SCAN_URL}${investTx.transactionHash}`}>{investTx.transactionHash}</a >
           </>
         )
       }
@@ -350,7 +350,7 @@ export const AccountActionCreator = {
         return (
           <>
             <p>You are successfuly withdrawn BNB</p>
-            <a target='_blank' href={`${Config().BSC_SCAN_URL}${withdrawTx.transactionHash}`}>{withdrawTx.transactionHash}</a >
+            <a className={'oblique'} target='_blank' href={`${Config().BSC_SCAN_URL}${withdrawTx.transactionHash}`}>{withdrawTx.transactionHash}</a >
           </>
         )
       }

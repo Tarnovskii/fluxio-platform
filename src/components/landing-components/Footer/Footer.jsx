@@ -1,5 +1,6 @@
 import './footer.scss'
 import {useOutletContext} from "react-router-dom";
+import {Config} from "../../../config";
 
 export const Footer = () => {
     const {openDepositModal} = useOutletContext();
@@ -10,13 +11,13 @@ export const Footer = () => {
                 <h3>Reliable smart contract on the Binance Smart Chain</h3>
                 <div className='footer__main__buttons'>
                     <button onClick={openDepositModal} className='red-bttn long-bttn'>Make a deposit</button>
-                    <button className='trnp-bttn long-bttn'>Verified contract</button>
+                    <a href={`${Config().BSC_SCAN_CONTRACT}/${Config().FARM_ADDRESS}`} target={'_blank'} className='trnp-bttn long-bttn'>Verified contract</a>
                 </div>
                 <hr className='con-def'/>
                 <div className='footer__main__links'>
-                    <a>Сontract</a>
-                    <a>Investments</a>
-                    <a>How it works</a>
+                    <a href={`${Config().BSC_SCAN_CONTRACT}/${Config().FARM_ADDRESS}`} target={'_blank'}>Contract</a>
+                    <a href={'#investments'}>Investments</a>
+                    <a href={'#how-it-works'}>How it works</a>
                 </div>
                 <hr className='con-def'/>
                 <div className={'footer__main__copyright'}>

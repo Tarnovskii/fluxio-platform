@@ -45,7 +45,7 @@ export const HowTo = () => {
     }, [turnovers])
 
     return (
-        <section className={'con-def ht'}>
+        <section id={'how-it-works'} className={'con-def ht'}>
             <div className={'ht__dep'}>
                 <h2>How to work with Fluxio</h2>
                 <p className={'ht__dep__sub-header'}>Follow a few easy steps to make profit</p>
@@ -64,7 +64,7 @@ export const HowTo = () => {
                             We recommend using browser extension or Binance Chain Wallet. For mobile devices, use Trust
                             orthe wallet apps Metamask
                         </p>
-                        <a className={'sqr-bttn'}>More information</a>
+                        <a href={'https://www.binance.com/en/feed/post/1013684'} target={'_blank'} className={'sqr-bttn'}>More information</a>
                     </div>
 
                     <div className={'ht__step-block__sub-block'}>

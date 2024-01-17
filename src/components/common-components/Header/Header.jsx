@@ -9,6 +9,7 @@ import {useMemo, useState} from 'react';
 import { useSelector } from 'react-redux';
 import {useLocation, useNavigate} from "react-router-dom";
 import {routerBook} from "../../../routes/routerBook";
+import {Config} from "../../../config";
 
 export const Header = ({dashboardButtonHandler}) => {
 
@@ -34,9 +35,9 @@ export const Header = ({dashboardButtonHandler}) => {
       <div className='con-desk con-def header__desktop-content'>
         <img onClick={navigate.bind(null, routerBook.main)} className='header__desktop-content__logo' src={logoSVG} alt={'svg'} />
         <nav className='header__desktop-content__nav'>
-          <a>Contract</a>
-          <a>Investments</a>
-          <a>How it works</a>
+          <a href={`${Config().BSC_SCAN_CONTRACT}/${Config().FARM_ADDRESS}`} target={'_blank'}>Contract</a>
+          <a href={'#investments'}>Investments</a>
+          <a href={'#how-it-works'}>How it works</a>
           <button onClick={dashboardButtonHandler} className='dark-bttn big-bttn'>{dashboardButtonTitle}</button>
         </nav>
       </div>
@@ -47,9 +48,9 @@ export const Header = ({dashboardButtonHandler}) => {
             {!isMobileMenuVisible ?  <img src={burgerMenuIcon} alt={'burger-menu-icon'}/> :  <img src={closeBurgerMenuIcon} alt={'burger-menu-icon'}/>}
           </button>
           <nav onClick={setIsMobileMenuVisible.bind(null, false)} className={classnames('header__mobile-content__main__nav', {'open': isMobileMenuVisible})}>
-            <a>Contract</a>
-            <a>Investments</a>
-            <a>How it works</a>
+            <a href={`${Config().BSC_SCAN_CONTRACT}/${Config().FARM_ADDRESS}`} target={'_blank'}>Contract</a>
+            <a href={'#investments'}>Investments</a>
+            <a href={'#how-it-works'}>How it works</a>
             <button onClick={dashboardButtonHandler} className='dark-bttn big-bttn'>{dashboardButtonTitle}</button>
           </nav>
         </div>
