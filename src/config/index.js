@@ -14,7 +14,7 @@ export const Config = () => {
   } else {
     return {
       WEB3_BSC_URL: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-      FARM_ADDRESS: '0x02626776C62b9da828A22c826F7615133F8D831D',
+      FARM_ADDRESS: '0x79CC632B85634414501812E60C1Eaac30F117718',
       HEARTBEAT_RATE: 10,
       BASE_URL: '/',
       PROJECT_ID: '5b88e380cb7f9736a57c4175e26f1c55',

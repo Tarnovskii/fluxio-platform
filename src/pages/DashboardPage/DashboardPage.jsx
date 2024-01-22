@@ -36,6 +36,8 @@ export const DashboardPage = withAuth(() => {
 
   const dailyYield = userStats.totalDeposits * userStats.percentRate / 100
 
+  const referralPercents = [5, 7, 9, 11, 14, 16, 18, 20]
+
   return (
     <section className={'con-def db'}>
       <h1>Wallet statistics</h1>
@@ -145,7 +147,7 @@ export const DashboardPage = withAuth(() => {
             <tbody>
               <tr>
                 <td><span>Referral level</span></td>
-                <td>{userReferralsStats.referralLevel}%</td>
+                <td>{referralPercents[userReferralsStats.referralLevel]}%</td>
               </tr>
               <tr>
                 <td><span>Turnover from 10 lines</span></td>

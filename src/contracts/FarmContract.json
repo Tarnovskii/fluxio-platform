@@ -29,15 +29,23 @@
 				"internalType": "address",
 				"name": "referrer",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "_partner",
+				"type": "bool"
 			}
 		],
-		"name": "invest",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "invest",
 		"outputs": [],
 		"stateMutability": "payable",
@@ -185,16 +193,16 @@
 	},
 	{
 		"inputs": [],
-		"name": "turn",
+		"name": "withdraw",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "withdraw",
+		"name": "withdrawBnb",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -215,6 +223,32 @@
 		],
 		"name": "Withdrawn",
 		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "ADVERTISING_ADDRESS",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ADVERTISING_FEE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -314,6 +348,19 @@
 			{
 				"internalType": "uint256",
 				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getContractPercent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_contractPercent",
 				"type": "uint256"
 			}
 		],

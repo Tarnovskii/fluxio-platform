@@ -167,11 +167,13 @@ export const AccountActionCreator = {
         console.log(error)
         return
       }
+
+      console.log(depositRates)
       const info = {
         basePercent: depositRates[0].toString() / 100,
-        holdBonus: +web3.utils.fromWei(depositRates[1].toString(), 'ether'),
-        contractBonus: +web3.utils.fromWei(depositRates[2].toString(), 'ether'),
-        vipBonus: +web3.utils.fromWei(depositRates[3].toString(), 'ether')
+        holdBonus: depositRates[1].toString() / 100,
+        contractBonus: depositRates[2].toString() / 100,
+        vipBonus: depositRates[3].toString() / 100
       }
 
       console.log(info)
@@ -195,9 +197,9 @@ export const AccountActionCreator = {
 
       console.log(amountToSend)
 
-      const investData = farmContract.methods.invest(upliner).encodeABI()
+      const investData = farmContract.methods.invest(upliner, amountToSend, walletAddress, false).encodeABI()
 
-      const gasLimit = await farmContract.methods.invest(upliner).estimateGas({ value: amountToSend, from: walletAddress })
+      const gasLimit = await farmContract.methods.invest(upliner, amountToSend, walletAddress, false).estimateGas({ value: amountToSend, from: walletAddress })
 
       console.log(upliner, walletAddress, amountToSend)
 
