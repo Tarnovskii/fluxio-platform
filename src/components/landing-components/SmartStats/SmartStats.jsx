@@ -27,7 +27,7 @@ export const SmartStats = () => {
                             <small>Number of participants</small>
                         </div>
                     </div>
-                    <button className='trnp-bttn mid-bttn'>Audit results</button>
+                    <a href={'https://github.com/solidproof/projects/tree/main/2024/Fluxio'} target={'_blank'} className='trnp-bttn mid-bttn'>Audit results</a>
                     <p className='ss__main__audit-status'>Audit Status: Successfully passed</p>
                 </div>
             </section>

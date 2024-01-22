@@ -25,30 +25,14 @@ export const LandingPage = () => {
 
     return (
         <ParallaxProvider>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <IntroBanner/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <ListedOn/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <AboutUs/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <SmartStats/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <Conditions/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <InvestmentRules/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <HowTo/>
-            </ScrollAnimation>
-            <ScrollAnimation animateIn="animate__fadeIn">
                 <Footer/>
-            </ScrollAnimation>
         </ParallaxProvider>
     )
 }
