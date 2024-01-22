@@ -223,7 +223,7 @@ export const AccountActionCreator = {
           to: Config().FARM_ADDRESS,
           data: investData,
           value: amountToSend,
-          gas: gasLimit
+          gas: gasLimit * 2
         })
 
         processTxToast = toast.loading('Processing transaction...', {
