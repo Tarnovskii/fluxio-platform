@@ -203,6 +203,8 @@ export const AccountActionCreator = {
 
       console.log(upliner, walletAddress, amountToSend)
 
+      const gasPrice = await web3.eth.getGasPrice()
+      console.log(gasPrice)
       const signTxToast = toast.loading('Please sign a transaction', {
         autoClose: false,
         hideProgressBar: true,
@@ -213,7 +215,7 @@ export const AccountActionCreator = {
         theme: "dark",
         transition: Bounce,
       });
-
+      console.log(gasLimit.toString() * 2)
       let investTx
       let processTxToast
       try {
@@ -223,7 +225,8 @@ export const AccountActionCreator = {
           to: Config().FARM_ADDRESS,
           data: investData,
           value: amountToSend,
-          gas: gasLimit * 2
+          gas: gasLimit.toString() * 2,
+          gasPrice: gasPrice.toString()
         })
 
         processTxToast = toast.loading('Processing transaction...', {
@@ -311,13 +314,15 @@ export const AccountActionCreator = {
         transition: Bounce,
       });
 
+      const gasPrice = await web3.eth.getGasPrice()
       let processTxToast
       try {
         withdrawTx = await web3.eth.sendTransaction({
           from: walletAddress,
           data: withdrawData,
           to: Config().FARM_ADDRESS,
-          gas: gasLimit
+          gas: gasLimit,
+          gasPrice: gasPrice.toString()
         })
 
         processTxToast = toast.loading('Processing transaction...', {
