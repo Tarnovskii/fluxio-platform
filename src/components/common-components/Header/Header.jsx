@@ -36,8 +36,12 @@ export const Header = ({dashboardButtonHandler}) => {
         <img onClick={navigate.bind(null, routerBook.main)} className='header__desktop-content__logo' src={logoSVG} alt={'svg'} />
         <nav className='header__desktop-content__nav'>
           <a href={`${Config().BSC_SCAN_CONTRACT}/${Config().FARM_ADDRESS}`} target={'_blank'}>Contract</a>
-          <a href={'#investments'}>Investments</a>
-          <a href={'#how-it-works'}>How it works</a>
+          {pathname !== routerBook.dashboard && (
+              <>
+                <a href={'#investments'}>Investments</a>
+                <a href={'#how-it-works'}>How it works</a>
+              </>
+          )}
           <button onClick={dashboardButtonHandler} className='dark-bttn big-bttn'>{dashboardButtonTitle}</button>
         </nav>
       </div>
@@ -49,8 +53,12 @@ export const Header = ({dashboardButtonHandler}) => {
           </button>
           <nav onClick={setIsMobileMenuVisible.bind(null, false)} className={classnames('header__mobile-content__main__nav', {'open': isMobileMenuVisible})}>
             <a href={`${Config().BSC_SCAN_CONTRACT}/${Config().FARM_ADDRESS}`} target={'_blank'}>Contract</a>
-            <a href={'#investments'}>Investments</a>
-            <a href={'#how-it-works'}>How it works</a>
+            {pathname !== routerBook.dashboard && (
+                <>
+                  <a href={'#investments'}>Investments</a>
+                  <a href={'#how-it-works'}>How it works</a>
+                </>
+            )}
             <button onClick={dashboardButtonHandler} className='dark-bttn big-bttn'>{dashboardButtonTitle}</button>
           </nav>
         </div>
