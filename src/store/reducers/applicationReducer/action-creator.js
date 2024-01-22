@@ -61,6 +61,7 @@ export const ApplicationActionCreator = {
       }
 
       const chainId = await getConnectedChainId()
+      if (chainId !== Config().CHAIN_ID) dispatch(ApplicationActionCreator.setNotCorrectChain(true))
       const currentAddress = walletRPC.account.address
       console.log('Wallet connected:', currentAddress)
       dispatch(AccountActionCreator.setWalletAddress(currentAddress))
