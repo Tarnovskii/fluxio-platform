@@ -17,7 +17,7 @@ export const DashboardPage = withAuth(() => {
   const { openDepositModal } = useOutletContext();
 
   const referralLink = useMemo(() => {
-    return `https://bnbpulse.com/?ref=${walletAddress}`
+    return `${window.location.origin}/?ref=${walletAddress}`
   }, [])
 
   const copyRefToClipboard = useCallback(() => {
@@ -106,7 +106,6 @@ export const DashboardPage = withAuth(() => {
           </table>
           <div className={'db__tile__buttons'}>
             <button onClick={openDepositModal} className={'red-bttn mid-bttn'}>Make new deposit</button>
-            <button className={'trnp-bttn mid-bttn'}>Deposits history</button>
           </div>
         </div>
       </div>
